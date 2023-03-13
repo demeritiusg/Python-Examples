@@ -1,10 +1,77 @@
 from datetime import datetime, timedelta
+from sqlalchemy import create_engine
+import boto3
 
 from airflow import DAG
 from airflow.operators.empty import EmptyOperator
 from airflow.utils.task_group import TaskGroup
 from airflow.utils.trigger_rule import TriggerRule
 from airflow.providers.postgres.operators.postgres import PostgresOperator
+
+
+post_string = os.environ['post_string']
+
+s3_bucket_name = ''
+s3_bucket_key =''
+
+
+def error_handling(context):
+    ti = context['ti']
+    err_str = f'task {ti.task_id} has failed at {ti.end_date}'
+    return err_str
+
+def sql_run(post_string, sql, **kwargs):
+    try:
+        engine = create_engine(post_string)
+        post_conn = engine.connect()
+        data = post_conn.execute(sql)
+    except Exception as e:
+        return e
+    return [dict(d) for d in data]
+
+def email_extract(filename, s3_bucket):
+    #add yyyy_MM_dd_HH_mm_ss to filename
+    #lowercase filename
+    s3_client = boto3.resource('s3')
+    bucket = s3_client.Bucket(s3_bucket)
+    now = datetime.now()
+    ending = now.strftime("Y_%m_%d_%H_%S")
+    #name = file
+    for name in bucket.glob('*[!0123456789]/.csv'):
+        new_path = name.with_stem(name.stem + ending)
+        if not new_path.exists():
+            newFileName = name.rename(new_path)
+            newFileName = newFileName.lower()
+            return newFileName
+        
+def transform_file(context, s3_bucket, post_string):
+    #cleaning data file
+    s3_client = boto3.resource('s3')
+    bucket = s3_client.Bucket(s3_client)
+    ti = context['task_instance']
+    d = ti.xcom_pull(task_id='extract_email_address', key='return_value')
+    obj = bucket.Object(s3_bucket, d)
+    data_df = pd.read_csv(obj)
+    data_df = data_df.drop_duplicates()
+    date_cols = data_df.columns[6:7]
+    data_df[date_cols] = data_df[date_cols].apply(pd.to_datetime, format='%Y=%m-%d')
+    for col in data_df.columns:
+        data_df[col] = data_df[col].str.strip() # this needs to be an append
+    clean_data = data_df
+
+    try:
+        engine = create_engine(post_string)
+        post_conn = engine.connect()
+    except Exception as e:
+        return e
+
+    try:
+        clean_data.to_csv(f'{d}', index=False)
+        clean_data.to_csv(f'{d}_archive.csv', sep='', index=False)
+        clean_data.to_sql(f'{d}', post_conn, schema='', if_exists='append', index=False)
+    except:
+        err_string = f'{d} was not downloaded {ti.task_id} at {ti.end_date}'
+        return err_string
 
 with DAG(
     dag_id='xray',
