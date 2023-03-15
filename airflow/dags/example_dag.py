@@ -10,7 +10,7 @@ from sqlalchemy import create_engine
 
 post_string = os.environ['post_string']
 
-s3_bucket_name = ''
+s3_bucket_name = os.environ['bucketName']
 s3_bucket_key =''
 
 def task_failure(context):
