@@ -13,6 +13,12 @@ post_string = os.environ['post_string']
 s3_bucket_name = ''
 s3_bucket_key =''
 
+def task_failure(context):
+    """Airflow task failure messagessss"""
+    dag_run = context.get('dag_run')
+    task_instances = dag_run.get_task_instances()
+    print("These task instances failed:", task_instances)
+
 def sql_run(post_string, sql, **kwargs):
     try:
         engine = create_engine(post_string)
