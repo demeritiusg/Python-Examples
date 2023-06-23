@@ -73,7 +73,7 @@ def transform_file(context, s3_bucket, post_string):
         return err_string
     
 with DAG(
-    dag_id='some_dag',
+    dag_id='example_dag',
     description='some dags description',
     start_date=datetime(2020, 1, 1),
     default_args={
