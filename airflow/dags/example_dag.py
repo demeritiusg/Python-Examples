@@ -10,8 +10,14 @@ from sqlalchemy import create_engine
 
 post_string = os.environ['post_string']
 
-s3_bucket_name = ''
+s3_bucket_name = os.environ['bucketName']
 s3_bucket_key =''
+
+def task_failure(context):
+    """Airflow task failure messagessss"""
+    dag_run = context.get('dag_run')
+    task_instances = dag_run.get_task_instances()
+    print("These task instances failed:", task_instances)
 
 def sql_run(post_string, sql, **kwargs):
     try:
@@ -67,7 +73,7 @@ def transform_file(context, s3_bucket, post_string):
         return err_string
     
 with DAG(
-    dag_id='some_dag',
+    dag_id='example_dag',
     description='some dags description',
     start_date=datetime(2020, 1, 1),
     default_args={
