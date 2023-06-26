@@ -20,6 +20,14 @@ Excel dashboard using data from csv file and adding it a custom formated Excel w
 
 today = datetime.today()
 
+def logging(today, report_username, resultlen):
+    rundate = today.strftime('%x')
+    report_username = report_username
+    report_count = str(resultlen)
+    f = open(f'./logs/_{rundate}.txt', 'a')
+    f.write(f'{report_username}_{report_count}_')
+    f.close()
+
 las_month = datetime.strftime(datetime.today() - pd.DateOffset(months=1), '%b')
 lat_month_results = datetime.strftime(datetime.today() - pd.DateOffset(months=1), '_%y%m_%b')
 two_month_results = datetime.strftime(datetime.today() - pd.DateOffset(months=2), '_%y%m_%b')
@@ -42,14 +50,13 @@ for p in path_to_report:
         if not os.isdir(p):
             raise
 
-# Building report log
-sys.stdout = open(f'./log/repot_log_{today}.txt')
+
 
 # Defining dataset location
-filename = (f'./data/{las_month}.csv')
+dataset = (f'./data/{las_month}.csv')
 
 # Import dataset
-overalldf = pd.read_csv(filename, encoding='utf-8').fillna(value='').sort_values(by='Emp_Login')
+overalldf = pd.read_csv(dataset, encoding='utf-8').fillna(value='').sort_values(by='Emp_Login')
 
 headercl = list(list(overalldf)[8:20])
 
@@ -60,39 +67,37 @@ hierarchyloginlist = overalldf[['Level4_login', 'Level5_login', 'Level6_login',
                        'Level11_login', 'Level12_login', 'Login']]
 
 # building a list of all columns with usernames
-masterhierarchyloginlist = list(set(hierarchyloginlist.get_values().flatten().tolist()))
-
-# removing any duplicate usernames
-masterusernamelist = list(filter(None, masterhierarchyloginlist))
-masterusernamelist.sort()
+masterusernamelist = hierarchyloginlist.stack().unique().tolist()
 
 img = Image('./templates/logo.png')
 
 result = pd.DataFrame()
 
 # lowercase alphabet list to match with username, its a hack
-alphalist = list(string.ascii_lowercase)
+lower_username = list(string.ascii_lowercase)
 
-alist = list(string.ascii_uppercase) # uppercase alphabet list to match with Excel headers
-alist.extend(('AA', 'AB', 'AC', 'AD', 'AE')) # Extending list to match Excel template, its a hack
+# uppercase alphabet list to match with Excel headers Extending list to match Excel template, its a hack to match dataset length
+excel_column_list = list(string.ascii_uppercase)  + ['AA', 'AB', 'AC', 'AD', 'AE'] 
 
-# Slicing alphabet list to separate files into their respective files, matching folder partitions
-longlist = [alphalist[:3], alphalist[3:6], alphalist[6:11], alphalist[11:14], alphalist[14:19], alphalist[19:26]]
+# Slicing alphabet list to separate files into their respective files, matching folder partitions, its a hack
+username_full_list = [lower_username[:3], lower_username[3:6], lower_username[6:11], lower_username[11:14], lower_username[14:19], lower_username[19:26]]
 
 for report_username in masterusernamelist:
-    for a in range(0, 6):
-        for l in longlist[a]:
-            if report_username.startswith(str(l)):
+    for partition_index in range(0, 6):
+        for username_index in username_full_list[partition_index]:
+            if report_username.startswith(str(username_index)):
 
                 # Create a copy of the template for the user
-                shutil.copy2(path_to_template, path_to_report[a] + f'{report_username}.xlsx')
+                shutil.copy2(path_to_template, path_to_report[partition_index] + f'{report_username}.xlsx')
+                
+                # building result set
                 result = overalldf[overalldf['Emp_Login'] == (f'{report_username}')]
                 for q in range(3, 13):
                     if any(overalldf['Level{}_login'.format(q, )] == (f'{report_username}')):
                         reportdf = overalldf[overalldf['Level{}_login'.format(q, )] == (f'{report_username}')]
                         result = result.append(reportdf)
 
-                # Re-ordering dataframe to match Excel template
+                # Rearranging dataframe to match Excel template
                 result = result[['Emp_Login', 'Emp_Id', 'Emp_Name', 'Business_Title', 'Job_Level', 'Site_Code',
                                  'MOM_Class_Trend', '{}'.format(lat_month_results, ), '{}'.format(two_month_results, ),
                                  '{}'.format(thr_month_results, ), '{}'.format(for_month_results, ), '{}'.format(fiv_month_results, ),
@@ -100,7 +105,9 @@ for report_username in masterusernamelist:
                                  'L68_SOC_CUL_', 'L68_DIR_LOM_', 'Country', 'tenure2', 'HC_All', 'HC_Blue', 'HC_Temp',
                                  'Level_4', 'Level_5', 'Level_6', 'Level_7', 'Level_8',
                                  'Level_9', 'Level_10', 'Level_11', 'Level_12']]
-                book = load_workbook(path_to_report[a] + f'{report_username}.xlsx')
+                
+                # Opening empty workbook
+                book = load_workbook(path_to_report[partition_index] + f'{report_username}.xlsx')
                 writer = pd.ExcelWriter(book, engine='openpyxl')
                 ws = book['Report']
                 c = ws['G3']
@@ -108,25 +115,28 @@ for report_username in masterusernamelist:
                 ws.row_dimensions[3].hidden = True
                 ws1 = book['Intro']
                 ws1.add_image(img, 'B2')
+
                 #
                 # Writing data to Excel file
                 #
                 for r in dataframe_to_rows(result, index=False, header=False):
                     ws.cell(column=1, row=2)
                     ws.append(r)
-                resultlen = len(result) + 4
+                resultlen = len(result)
+
                 #
-                # More formatting
+                # throwing a box around dataframe in excel
+                # need to change to updated pandas work
                 #
                 thin = Side(border_style='thin', color='000000')
                 thick = Side(border_style='medium', color='000000')
 
-                for x in range(4, resultlen):
-                    for y in alist:
+                for x in range(4, resultlen + 4):
+                    for y in excel_column_list:
                         sty = ws[y + str(x - 1)]
                         styhierarchytwelve = ws['AF' + str(x - 1)]
-                        stylastrow = ws[y + str(resultlen - 1)]
-                        stylastcell = ws['AF' + str(resultlen - 1)]
+                        stylastrow = ws[y + str(resultlen + 3)]
+                        stylastcell = ws['AF' + str(resultlen + 3)]
                         sty.alignment = Alignment(horizontal='center', vertical='center')
                         sty.border = Border(left=thin, right=thin, bottom=thin)
                         styhierarchytwelve.alignment = Alignment(horizontal='center', vertical='center')
@@ -135,8 +145,10 @@ for report_username in masterusernamelist:
                         stylastrow.border = Border(left=thin, right=thin, bottom=thick)
                         stylastcell.alignment = Alignment(horizontal='center', vertical='center')
                         stylastcell.border = Border(left=thin, right=thick, bottom=thick)
+
 				#
 				# Dashboard heatmap styling
+                # need to change to updated pandas work
 				#
                 if any(result[headercl] == 'Field 8'):
                     dxf = DifferentialStyle(font=Font(color='FE0000'))
@@ -191,8 +203,7 @@ for report_username in masterusernamelist:
                 #
                 # Saving final workbook
                 #
-                book.save(path_to_report[a] + f'{report_username}.xlsx')
-    #
-    # cataching log data
-    #
-    print(report_username + ',' + str(len(result)))
+                book.save(path_to_report[partition_index] + f'{report_username}.xlsx')
+    # Building report log 
+    logging(today, report_username, resultlen)
+

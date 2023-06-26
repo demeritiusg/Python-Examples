@@ -1,25 +1,39 @@
 import random
+from enum import IntEnum
 
-while True:
-    user_action = input('Enter a choice (rock, paper, scissors):')
-    possible_actions = ['rock', 'paper', 'scissors']
-    computer_acition = random.choice(possible_actions)
-    print(f'\nYou chose {user_action}, computer chose {computer_acition}')
+class Action(IntEnum):
+    Rock = 0
+    Paper = 1
+    Scissors = 2
 
-    if user_action == computer_acition:
-        print(f'Both players selected {user_action}, it''s a tie!')
-    elif user_action == 'rock':
-        if computer_acition == 'scissors':
+def user_selection():
+    user_input = input("enter a choice (rock[0], paper[1], scissors[2]):")
+    selection = int(user_input)
+    action = Action(selection)
+    return action
+
+def computer_selection():
+    selection = random.randint(0, len(Action) - 1)
+    action = Action(selection)
+    return action
+
+def play_game(user_selection, computer_selection):
+    li
+
+    if user_selection == computer_selection:
+        print(f'both players selected {user_selection.name}')
+    elif user_selection == Action.Rock:
+        if computer_selection == Action.Scissors:
             print('rock smashes scissors! You win!')
         else:
             print('Paper covers rock! You lose.')
-    elif user_action == 'paper':
-        if computer_acition == 'rock':
+    elif user_selection == Action.Paper:
+        if computer_selection == Action.Rock:
             print('Paper covers rock!, you win!')
         else:
             print('Scissors cuts paper! you lose.')
-    elif user_action == 'scissors':
-        if computer_acition == 'paper':
+    elif user_selection == Action.Scissors:
+        if computer_selection == Action.Paper:
             print('Scissors cuts paper! you win!')
         else:
             print('Rock smashes scissors. you lose.')
