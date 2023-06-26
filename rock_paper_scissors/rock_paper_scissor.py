@@ -7,8 +7,9 @@ class Action(IntEnum):
     Scissors = 2
 
 def user_pick():
-    user_input = input("enter a choice (rock[0], paper[1], scissors[2]):")
-    selection = int(user_input)
+    choices = [f'{action.name}[{action.value}]' for action in Action]
+    choices_str = ', '.join(choices)
+    selection = int(input(f'enter a choice {choices_str}):'))
     action = Action(selection)
     return action
 
@@ -18,7 +19,6 @@ def computer_pick():
     return action
 
 def play_game(user_selection, computer_selection):
-    li
 
     if user_selection == computer_selection:
         print(f'both players selected {user_selection.name}')
@@ -37,7 +37,6 @@ def play_game(user_selection, computer_selection):
             print('Scissors cuts paper! you win!')
         else:
             print('Rock smashes scissors. you lose.')
-    
     
 while True:
     try:
