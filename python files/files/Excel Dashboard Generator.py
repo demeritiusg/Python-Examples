@@ -1,3 +1,7 @@
+"""
+Excel dashboard using data from csv file and adding it a custom formated Excel workbook. Main libaries used are Pandas and Openpyxl
+"""
+
 import pandas as pd
 import sys
 import os
@@ -14,9 +18,7 @@ from openpyxl.formatting import Rule
 from openpyxl.utils.dataframe import dataframe_to_rows
 
 
-"""
-Excel dashboard using data from csv file and adding it a custom formated Excel workbook. Main libaries used are Pandas and Openpyxl
-"""
+
 
 today = datetime.today()
 
