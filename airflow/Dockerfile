@@ -1,4 +1,4 @@
-FROM apache/airflow:slim-latest
+FROM apache/airflow:latest
 # syntax=docker/dockerfile:1
 
 #FROM python:3.12
@@ -11,7 +11,7 @@ COPY ./scipts/entrypoint.sh entrypoint.sh
 RUN python -m pip install --upgrade pip
 RUN pip install --upgrade -r requirements.txt
 
-RUN chmod +x ./file-if-any/entrypoint.sh
+#RUN chmod +x ./file-if-any/entrypoint.sh
 
 COPY . .
 
