@@ -2,11 +2,11 @@ import os
 import boto3
 import pandas as pd
 from airflow import DAG
-from airflow.operators.bash import BashOperator
+#from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
-from sqlalchemy import create_engine
+#from sqlalchemy import create_engine
 
 post_string = os.environ['post_string']
 
@@ -19,14 +19,14 @@ def task_failure(context):
     task_instances = dag_run.get_task_instances()
     print("These task instances failed:", task_instances)
 
-def sql_run(post_string, sql, **kwargs):
-    try:
-        engine = create_engine(post_string)
-        post_conn = engine.connect()
-        data = post_conn.execute(sql)
-    except Exception as e:
-        return e
-    return [dict(d) for d in data]
+# def sql_run(post_string, sql, **kwargs):
+#     try:
+#         engine = create_engine(post_string)
+#         post_conn = engine.connect()
+#         data = post_conn.execute(sql)
+#     except Exception as e:
+#         return e
+#     return [dict(d) for d in data]
 
 def email_extract(filename, s3_bucket):
     #add yyyy_MM_dd_HH_mm_ss to filename
@@ -58,16 +58,16 @@ def transform_file(context, s3_bucket, post_string):
         data_df[col] = data_df[col].str.strip() # this needs to be an append
     clean_data = data_df
 
-    try:
-        engine = create_engine(post_string)
-        post_conn = engine.connect()
-    except Exception as e:
-        return e
+    # try:
+    #     engine = create_engine(post_string)
+    #     post_conn = engine.connect()
+    # except Exception as e:
+    #     return e
 
     try:
         clean_data.to_csv(f'{d}', index=False)
         clean_data.to_csv(f'{d}_archive.csv', sep='', index=False)
-        clean_data.to_sql(f'{d}', post_conn, schema='', if_exists='append', index=False)
+        # clean_data.to_sql(f'{d}', post_conn, schema='', if_exists='append', index=False)
     except:
         err_string = f'{d} was not downloaded {ti.task_id} at {ti.end_date}'
         return err_string
@@ -101,18 +101,18 @@ with DAG(
         provide_context=True
     )
 
-    t14 = PythonOperator(
-        task_id='copy_stage_table',
-        python_callable=sql_run,
-        provide_context=True,
-        op_kwargs={'sql': 'truncate table data; insert into data; select * from staging_data;'}
-    )
+    # t14 = PythonOperator(
+    #     task_id='copy_stage_table',
+    #     python_callable=sql_run,
+    #     provide_context=True,
+    #     op_kwargs={'sql': 'truncate table data; insert into data; select * from staging_data;'}
+    # )
 
-    t15 = PythonOperator(
-        task_id='complete',
-        python_callable=sql_run,
-        provide_context=True,
-        op_kwargs={'sql':'select count(*), getdate from data'}
-    )
+    # t15 = PythonOperator(
+    #     task_id='complete',
+    #     python_callable=sql_run,
+    #     provide_context=True,
+    #     op_kwargs={'sql':'select count(*), getdate from data'}
+    # )
 
-    t1 >> t3 >> t9 >> t14 >> t15
+    t1 >> t3 >> t9
