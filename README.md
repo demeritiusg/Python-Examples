@@ -1,14 +1,12 @@
 # Python-Examples
 ## Includes various examples of my work with Python.
 <br>
-rock, paper, scissors game <br>
-excel dashboard generator <br>
-excel report generator <br>
-airflow instance (aws) <br>
-object oriented programming <br>
-data pipeline (snowflake, aws, pyspark, kafka) <br>
-web scraper using data from Nasdaq <br>
-web scraper using data from internet and llm looking for M and A data <br>
+Rock, Paper, Scissors Game <br>
+Excel Dashboard Generator <br>
+Excel Report Generator <br>
+Airflow Instance<br>
+Object Oriented Programming <br>
+Data Pipelines (snowflake, aws, pyspark, kafka) <br>
 <br>
 <br>
 

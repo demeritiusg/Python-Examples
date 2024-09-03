@@ -1,2 +1,3 @@
 python-exmaples/nasdaq_picker/.nasdaq/
 python-exmaples/airflow/logs/
+python-exmaples/airflow/dags/__pycache__/

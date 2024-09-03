@@ -8,9 +8,9 @@ from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
 #from sqlalchemy import create_engine
 
-post_string = os.environ['post_string']
+post_string = 'post_string'
 
-s3_bucket_name = os.environ['bucketName']
+s3_bucket_name = 'bucketName'
 s3_bucket_key =''
 
 def task_failure(context):

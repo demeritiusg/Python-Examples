@@ -9,7 +9,7 @@ from airflow.utils.trigger_rule import TriggerRule
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 
 
-post_string = os.environ['post_string']
+post_string = 'post_string'
 
 s3_bucket_name = ''
 s3_bucket_key =''
