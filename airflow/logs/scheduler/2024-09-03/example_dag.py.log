@@ -1,0 +1,176 @@
+[2024-09-03T04:49:42.126+0000] {processor.py:186} INFO - Started process (PID=165) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:49:42.129+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:49:42.139+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:49:42.138+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:49:47.608+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:49:47.593+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:49:47.613+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:49:47.777+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 5.663 seconds
+[2024-09-03T04:50:18.284+0000] {processor.py:186} INFO - Started process (PID=191) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:50:18.285+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:50:18.288+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:50:18.288+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:50:19.071+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:50:19.068+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:50:19.072+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:50:19.163+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 0.890 seconds
+[2024-09-03T04:50:49.726+0000] {processor.py:186} INFO - Started process (PID=207) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:50:49.727+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:50:49.729+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:50:49.729+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:50:50.271+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:50:50.266+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:50:50.272+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:50:50.408+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 0.688 seconds
+[2024-09-03T04:51:21.431+0000] {processor.py:186} INFO - Started process (PID=223) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:51:21.435+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:51:21.442+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:51:21.441+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:51:22.600+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:51:22.597+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:51:22.601+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:51:22.656+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 1.251 seconds
+[2024-09-03T04:51:53.687+0000] {processor.py:186} INFO - Started process (PID=239) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:51:53.688+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:51:53.691+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:51:53.691+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:51:54.228+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:51:54.224+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:51:54.229+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:51:54.330+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 0.651 seconds
+[2024-09-03T04:54:39.167+0000] {processor.py:186} INFO - Started process (PID=179) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:54:39.168+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:54:39.171+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:54:39.171+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:54:40.466+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:54:40.462+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:54:40.468+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:54:40.529+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 1.370 seconds
+[2024-09-03T04:55:10.930+0000] {processor.py:186} INFO - Started process (PID=205) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:55:10.932+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:55:10.935+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:55:10.934+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:55:11.575+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:55:11.571+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:55:11.577+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:55:11.637+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 0.717 seconds
+[2024-09-03T04:55:42.163+0000] {processor.py:186} INFO - Started process (PID=221) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:55:42.165+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:55:42.168+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:55:42.167+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:55:42.807+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:55:42.803+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:55:42.808+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:55:42.867+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 0.712 seconds
+[2024-09-03T04:56:13.834+0000] {processor.py:186} INFO - Started process (PID=237) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:56:13.835+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:56:13.837+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:56:13.837+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:56:14.408+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:56:14.403+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:56:14.409+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:56:14.484+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 0.656 seconds
+[2024-09-03T04:56:45.375+0000] {processor.py:186} INFO - Started process (PID=253) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:56:45.376+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:56:45.379+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:56:45.378+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:56:46.015+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:56:46.010+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:56:46.016+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:56:46.072+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 0.704 seconds
+[2024-09-03T04:57:16.147+0000] {processor.py:186} INFO - Started process (PID=269) to work on /opt/airflow/dags/example_dag.py
+[2024-09-03T04:57:16.148+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/example_dag.py for tasks to queue
+[2024-09-03T04:57:16.151+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:57:16.151+0000] {dagbag.py:587} INFO - Filling up the DagBag from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:57:16.880+0000] {logging_mixin.py:190} INFO - [2024-09-03T04:57:16.869+0000] {dagbag.py:386} ERROR - Failed to import: /opt/airflow/dags/example_dag.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 382, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/example_dag.py", line 11, in <module>
+    post_string = os.environ['post_string']
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<frozen os>", line 714, in __getitem__
+KeyError: 'post_string'
+[2024-09-03T04:57:16.882+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/example_dag.py
+[2024-09-03T04:57:16.971+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/example_dag.py took 0.833 seconds
