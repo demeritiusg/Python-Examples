@@ -1,4 +1,4 @@
-python-exmaples/nasdaq_picker/*
+python-exmaples/nasdaq_picker/
 python-exmaples/airflow/logs/
 python-exmaples/airflow/dags/__pycache__/
-python-exmaples/airflow/pgdata/*
+python-exmaples/airflow/pgdata/
