@@ -1,3 +1,5 @@
+# version 1... my first try at the game
+
 import random
 from enum import IntEnum
 

@@ -1,13 +1,14 @@
 # Python-Examples
 ## Includes various examples of my work with Python.
 <br>
-Airflow Environment<br>
-Data Pipelines (snowflake, aws, pyspark, kafka) <br>
-Rock, Paper, Scissors Game <br>
-Excel Dashboard Generator <br>
-Excel Report Generator <br>
-Object Oriented Programming <br>
-Nasdaq Datapipline<b>
+1. Airflow Environment<br>
+2. Data Pipelines (snowflake, aws, pyspark, kafka) <br>
+3. Rock, Paper, Scissors Game. Last updated 9/26/24 <br>
+4. Python Files<br>
+   * Excel Dashboard Generator
+   * Excel Report Generator
+   * Object Oriented Programming
+5. Nasdaq Datapipline<b>
 <br>
 <br>
 
