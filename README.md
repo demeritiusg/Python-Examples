@@ -4,10 +4,11 @@
 1. Airflow Environment
 
 2. ETL (snowflake, aws, pyspark, kafka)
-    * 
 
-3. Rock, Paper, Scissors Game. Last updated 9/26/24
-    * 2 interations of my attempts at the game
+3. Games
+   * Guess the number
+   * Rock, Paper, Scissors Game. Last updated 9/26/24
+        2 interations of my attempts at the game
 
 4. Python Files 
     * Excel Dashboard Generator
