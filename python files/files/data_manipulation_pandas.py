@@ -38,10 +38,13 @@ def transform_data(
 logging.info("Loading datasets...")
 try:
   sales_data = pd.read_csv(sales_data_path, parse_dates=['date'])
-  product_info = ps.read_csv(product_info_path, index_col='product_id')
+  product_info = pd.read_csv(product_info_path, index_col="product_id")
 except Exception as e:
   logging.error(f"Error loading input files: {e}")
   raise
+
+logging.info(f"Sales data: {sales_data.shape[0]} rows, {sales_data.shape[1]} cols")
+logging.info(f"Product data: {product_info.shape[0]} rows, {product_info.shape[1]} cols")
 
 # Data Quality Checks
 if sales_data['product_id'].isnull().any():
@@ -61,16 +64,16 @@ transformed_data = sales_data.merge(
 
 # Feature Engineering
 logging.info("Extracting temporal features...")
-transformed_data['year'] = tramsformed_data['data'].dt.year
-transformed_data['month'] = transformed_data['month'].dt.month
+transformed_data['year'] = tramsformed_data['date'].dt.year
+transformed_data['month'] = transformed_data['date'].dt.month
 
 # Aggregation
 logging.info("Creating pivot table (sales units by product and store)...")
 pivot_table = transformed_data.pivot_table(
-  index='product_id',
-  columns='store_id',
-  values='sales_units',
-  aggfunc='sum',
+  index="product_id",
+  columns="store_id",
+  values="sales_units",
+  aggfunc="sum",
   full_value=0
 )
 
@@ -90,9 +93,10 @@ logging.info(f"Pivot table save to {pivot_path}")
 return transformed_data, pivot_table
 
 if __name__ == "__main__":
-  transformed, pivot = transformed_data(
+  transformed, pivot = transform_data(
     sales_data_path="data/sales_data.csv",
     product_info_path="data/product_info.csv"
   )
   logging.info("Transformation complete.")
+
 
