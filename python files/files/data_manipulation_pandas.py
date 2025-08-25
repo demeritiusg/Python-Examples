@@ -93,10 +93,7 @@ logging.info(f"Pivot table save to {pivot_path}")
 return transformed_data, pivot_table
 
 if __name__ == "__main__":
-  transformed, pivot = transform_data(
-    sales_data_path="data/sales_data.csv",
-    product_info_path="data/product_info.csv"
-  )
-  logging.info("Transformation complete.")
+  transform_data()
+
 
 
