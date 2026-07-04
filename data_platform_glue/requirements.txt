@@ -1,0 +1,8 @@
+boto3
+pyspark
+python
+sqlalchemy
+pandas
+requests
+pyarrow
+snowflake

@@ -1,0 +1,27 @@
+dev:
+  bronze = 's3://bucket_name/'
+  sliver = 's3://bucket_name/'
+  gold = 's3://bucket_name/'
+  sf_account= 'sf_account'
+  sf_user= 'sf_user'
+  sf_password= 'sf_password'
+  sf_database= 'sf_database'
+  sf_schema= 'sf_schema'
+  sf_warehouse= 'sf_warehouse'
+  sf_role= 'sf_role'
+
+prod:
+  bronze = 's3://bucket_name/'
+  sliver = 's3://bucket_name/'
+  gold = 's3://bucket_name/'
+  sf_account= 'sf_account'
+  sf_user= 'sf_user'
+  sf_password= 'sf_password'
+  sf_database= 'sf_database'
+  sf_schema= 'sf_schema'
+  sf_warehouse= 'sf_warehouse'
+  sf_role= 'sf_role'
+
+compression:
+  parquet: 'snappy'
+  csv: 'gzip'
