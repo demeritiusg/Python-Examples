@@ -1,66 +1,74 @@
-import os
-import boto3
-import pandas as pd
 from airflow import DAG
-#from airflow.operators.bash import BashOperator
-from airflow.operators.python import PythonOperator
-from airflow.operators.empty import EmptyOperator
+from airflow.decorators import task
+from airflow.operators.python import BranchPythonOperator
+from airflow.utils.trigger_rule import TriggerRule
 from datetime import datetime, timedelta
-from scripts import transform_data
-from scripts import email_extract
+import random
 
-post_string = 'post_string'
+default_args = {
+    "retries": 2,
+    "retry_delay": timedelta(seconds=10),
+}
 
-s3_bucket_name = 'bucketName'
-s3_bucket_key =''
-
-def task_failure(context):
-    """Airflow task failure messagessss"""
-    dag_run = context.get('dag_run')
-    task_instances = dag_run.get_task_instances()
-    print("These task instances failed:", task_instances)
-    
 with DAG(
-    dag_id='example_dag',
-    description='some dags description',
-    start_date=datetime(2020, 1, 1),
-    default_args={
-        'retries': 1,
-        'retry_delay': timedelta(minutes=5),
-        'on_failure_callback': '',
-        'provide_contenxt': True
-    },
-    catchup=False
-)   as dag:
+    dag_id="complex_dynamic_dag",
+    start_date=datetime(2024, 1, 1),
+    schedule="@daily",
+    catchup=False,
+    default_args=default_args,
+    tags=["complex"]
+) as dag:
 
-    t1 = EmptyOperator(
-        task_id='Email_sensor_trigger_dag'
-    )
+    users = ["alice", "bob", "carol"]
 
-    t3 = PythonOperator(
-        task_id='extract_email_attributes',
-        python_callable=email_extract,
-        provide_context=True
-    )
+    @task
+    def start():
+        return "Begin processing"
 
-    t9 = PythonOperator(
-        task_id='task_parser',
-        python_callable=transform_data,
-        provide_context=True
-    )
+    @task
+    def fetch_user_data(user):
+        # Simulate possible failure
+        # if random.random() < 0.1:
+        #     raise ValueError(f"Failed to fetch data for {user}")
+        return {"user": user, "score": random.randint(0, 100)}
 
-    # t14 = PythonOperator(
-    #     task_id='copy_stage_table',
-    #     python_callable=sql_run,
-    #     provide_context=True,
-    #     op_kwargs={'sql': 'truncate table data; insert into data; select * from staging_data;'}
-    # )
+    @task.branch
+    def classify_user(score):
+            if score >= 50:
+                return "high_score"
+            return "low score"
 
-    # t15 = PythonOperator(
-    #     task_id='complete',
-    #     python_callable=sql_run,
-    #     provide_context=True,
-    #     op_kwargs={'sql':'select count(*), getdate from data'}
-    # )
+    # def branch_func(classification: str):
+    #     return f"{classification}"
 
-    t1 >> t3 >> t9
+    @task
+    def high_score_process(data):
+        print(f"Congrats {data['user']}! You have a high score: {data['score']}")
+
+    @task
+    def low_score_process(data):
+        print(f"{data['user']} has a low score: {data['score']}")
+
+    @task
+    def cleanup(user):
+        print(f"Cleanup done for {user}")
+
+    start_node = start()
+
+    for user in users:
+        user_data = fetch_user_data.override(task_id=f"fetch_{user}")(user)
+        user_class = classify_user.override(task_id=f"classify_{user}")(user_data)
+        branch = BranchPythonOperator(
+            task_id=f"branch_{user}",
+            python_callable=classify_user,
+            op_args=[user_class],
+        )
+
+        hs = high_score_process.override(task_id=f"high_score_{user}")(user_data)
+        ls = low_score_process.override(task_id=f"low_score_{user}")(user_data)
+
+        end = cleanup.override(task_id=f"cleanup_{user}")(user)
+
+        start_node >> user_data >> user_class >> branch
+        branch >> hs >> end
+        branch >> ls >> end
