@@ -1,7 +1,8 @@
 from airflow import DAG
 from airflow.decorators import task
-from airflow.operators.python import BranchPythonOperator
+#from airflow.operators.python import BranchPythonOperator
 from airflow.utils.trigger_rule import TriggerRule
+from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
 import random
 
@@ -33,12 +34,12 @@ with DAG(
         return {"user": user}
 
     @task.branch
-    def classify_user():
+    def classify_user(score):
         score = random.randint(0, 100)
         
         if score >= 50:
             return "high_score"
-        return "low score"
+        return "low_score"
 
     # def branch_func(classification: str):
     #     return f"{classification}"
@@ -55,21 +56,21 @@ with DAG(
     def cleanup(user):
         print(f"Cleanup done for {user}")
 
-    for user in users:
-        user_data = fetch_user.override(task_id=f"fetch_{user}")(user)
-        #user_class = classify_user.override(task_id=f"classify_{user}")(user_data)
-        branch = BranchPythonOperator(
-            task_id=f"branch_{user}",
-            python_callable=classify_user,
-            op_args=[user_class],
-        )
+    # for user in users:
+    #     user_data = fetch_user.override(task_id=f"fetch_{user}")(user)
+    #     user_class = classify_user.override(task_id=f"classify_{user}")(user_data)
+    #     branch = BranchPythonOperator(
+    #         task_id=f"branch_{user}",
+    #         python_callable=classify_user,
+    #         #op_args=[user_class],
+    #     )
 
-        hs = high_score.override(task_id=f"high_score_{user}")(user_data)
-        ls = low_score.override(task_id=f"low_score_{user}")(user_data)
+        hs = high_score_process.override(task_id=f"high_score_{user}")(user_data)
+        ls = low_score_process.override(task_id=f"low_score_{user}")(user_data)
 
-        end = cleanup.override(task_id=f"cleanup_{user}")(user)
+        end = EmptyOperator(task_id=f"end_{user}", trigger_rule=TriggerRule.NONE_FAILED)
 
-        user_data >> user_class >> branch
+        # user_data >> user_class >> branch
         
-        branch >> hs >> end
-        branch >> ls >> end
+        classify_user >> [hs, ls] >> end
+        #branch >> ls >> end
