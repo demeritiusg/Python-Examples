@@ -4,8 +4,10 @@ from airflow.decorators import task
 from airflow.utils.trigger_rule import TriggerRule
 from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
+from logging import getLogger
 import random
 
+logger = getLogger(__name__)
 
 users = ["alice", "bob", "carol"]
 
@@ -16,7 +18,7 @@ default_args = {
 
 with DAG(
     dag_id="complex_dynamic_dag",
-    start_date=datetime(2024, 1, 1),
+    start_date=datetime(2027, 1, 1),
     schedule="@daily",
     catchup=False,
     default_args=default_args,
@@ -54,20 +56,22 @@ with DAG(
     def high_score_process(): #needs to call classify_user to get the score and user data
         user = fetch_user.output
         score = classify_user.output
-        print(f"Congrats {user}! You have a high score: {score}")
+        logger.info(f"Congrats {user}! You have a high score: {score}")
+        #print(f"Congrats {user}! You have a high score: {score}")
 
     @task
     def low_score_process():  #needs to call classify_user to get the score and user data
         user = fetch_user.output
         score = classify_user.output
-        print(f"{user} has a low score: {score} better luck next time!")
+        logger.info(f"{user} has a low score: {score} better luck next time!")
+        #print(f"{user} has a low score: {score} better luck next time!")
 
 
-    @task
-    def end():
-        user = fetch_user.output
-        EmptyOperator(task_id=f"end_{user}", trigger_rule=TriggerRule.NONE_FAILED)
+    end = EmptyOperator(
+        task_id="end",
+        trigger_rule=TriggerRule.NONE_FAILED,
+    )
+    logger.info("End of processing")
 
-        
     start >> classify_user >> [high_score_process, low_score_process] >> end
         #branch >> ls >> end
