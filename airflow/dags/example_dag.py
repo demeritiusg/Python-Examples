@@ -6,6 +6,9 @@ from airflow.operators.empty import EmptyOperator
 from datetime import datetime, timedelta
 import random
 
+
+users = ["alice", "bob", "carol"]
+
 default_args = {
     "retries": 2,
     "retry_delay": timedelta(seconds=10),
@@ -20,7 +23,13 @@ with DAG(
     tags=["complex"]
 ) as dag:
 
-    users = ["alice", "bob", "carol"]
+    
+    # for user in users:
+    #     #user_data = fetch_user.override(task_id=f"fetch_{user}")(user)
+    #     #user_class = classify_user.override(task_id=f"classify_{user}")(user_data)
+
+    #     hs = high_score_process.override(task_id=f"high_score_{user}")(user_data)
+    #     ls = low_score_process.override(task_id=f"low_score_{user}")(user_data)
 
     @task
     def start():
@@ -41,36 +50,24 @@ with DAG(
             return "high_score"
         return "low_score"
 
-    # def branch_func(classification: str):
-    #     return f"{classification}"
+    @task
+    def high_score_process(): #needs to call classify_user to get the score and user data
+        user = fetch_user.output
+        score = classify_user.output
+        print(f"Congrats {user}! You have a high score: {score}")
 
     @task
-    def high_score_process(data):
-        print(f"Congrats {data['user']}! You have a high score: {data['score']}")
+    def low_score_process():  #needs to call classify_user to get the score and user data
+        user = fetch_user.output
+        score = classify_user.output
+        print(f"{user} has a low score: {score} better luck next time!")
+
 
     @task
-    def low_score_process(data):
-        print(f"{data['user']} has a low score: {data['score']}")
+    def end():
+        user = fetch_user.output
+        EmptyOperator(task_id=f"end_{user}", trigger_rule=TriggerRule.NONE_FAILED)
 
-    @task
-    def cleanup(user):
-        print(f"Cleanup done for {user}")
-
-    # for user in users:
-    #     user_data = fetch_user.override(task_id=f"fetch_{user}")(user)
-    #     user_class = classify_user.override(task_id=f"classify_{user}")(user_data)
-    #     branch = BranchPythonOperator(
-    #         task_id=f"branch_{user}",
-    #         python_callable=classify_user,
-    #         #op_args=[user_class],
-    #     )
-
-        hs = high_score_process.override(task_id=f"high_score_{user}")(user_data)
-        ls = low_score_process.override(task_id=f"low_score_{user}")(user_data)
-
-        end = EmptyOperator(task_id=f"end_{user}", trigger_rule=TriggerRule.NONE_FAILED)
-
-        # user_data >> user_class >> branch
         
-        classify_user >> [hs, ls] >> end
+    start >> classify_user >> [high_score_process, low_score_process] >> end
         #branch >> ls >> end
